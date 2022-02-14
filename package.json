@@ -4,5 +4,9 @@
   "main": "index.js",
   "repository": "https://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@github.com/baozoudashijian/Music-163.git",
   "author": "zhangrongjie <1787009521@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "qiniu": "^7.4.0"
+  }
 }
