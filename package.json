@@ -6,6 +6,7 @@
   "author": "zhangrongjie <1787009521@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.0",
     "express": "^4.17.2",
     "qiniu": "^7.4.0"
   }
