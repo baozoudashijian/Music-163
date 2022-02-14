@@ -8,13 +8,29 @@
   <title>Music-163</title>
 </head>
 <body>
-<div>hello world</div>
+<div><input id="input" type="file"></div>
 
 <script src="../node_modules/axios/dist/axios.min.js"></script>
+<script src="../node_modules/qiniu-js/dist/qiniu.min.js"></script>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script>
-  axios.get('/uploadToken').then(({data}) => {
-    console.log(data);
+  let selectedFile
+  $('input[type="file"]').change(function(e){
+    selectedFile = e.target.files[0]
+
+    axios.get('/uploadToken').then(({data}) => {
+    let { uploadToken } = data
+    const observable = qiniu.upload(selectedFile, selectedFile.name, uploadToken)
+    const subscription = observable.subscribe(function next(res) {
+
+    }, function error(err) {
+
+    }, function complete(res) {
+      console.log(res)
+    })
   })
+})
+  
 
 </script>
 </body>
