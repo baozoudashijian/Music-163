@@ -5,7 +5,9 @@ const qiniu = require('qiniu')
 
 const app = express()
 
-app.use('/', express.static(__dirname, 'src'))
+// 指定静态目录
+app.use('/', express.static(__dirname))
+
 app.get('/', function (req, res) {
   res.sendFile('/src/index.html', {
     root: __dirname
