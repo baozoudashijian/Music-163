@@ -24,6 +24,13 @@
       this.view = view
       this.model = model
       this.view.render()
+      this.bindEvents()
+    },
+    bindEvents() {
+      $(this.view.el).on('click', '.menu-list' , function(e) {
+        $(this).children().removeClass('active')
+        $(e.target).parent().addClass('active')
+      })
     }
   }
   controller.init(view, model)
