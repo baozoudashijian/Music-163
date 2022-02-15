@@ -24,12 +24,14 @@
       this.view = view
       this.model = model
       this.view.render()
+      window.eventHub.emit('update:menuList', {name: $(this.view.el + ' .active').text().trim()})
       this.bindEvents()
     },
     bindEvents() {
       $(this.view.el).on('click', '.menu-list' , function(e) {
         $(this).children().removeClass('active')
         $(e.target).parent().addClass('active')
+        window.eventHub.emit('update:menuList', {name: $(e.target).text()})
       })
     }
   }
