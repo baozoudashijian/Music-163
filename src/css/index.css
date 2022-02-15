@@ -1,0 +1,23 @@
+body {
+    box-sizing: border-box;
+}
+.header-nav {
+    box-shadow: 0 4px 8px 0 rgb(51 51 51 / 8%)
+}
+.header-nav .logo, .header-nav .nav-content {
+    align-items: center;
+    height: 52px;
+}
+.header-nav .logo {
+    display: inline-flex;
+    padding: 0 20px;
+}
+.header-nav .nav-content {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    padding-right: 40px;
+}
+.header-nav .nav-content .nav-link {
+    color: #333;
+}

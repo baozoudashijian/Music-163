@@ -7,6 +7,8 @@ const app = express()
 
 // 指定静态目录
 app.use('/', express.static(__dirname))
+// 指定多个静态目录
+app.use('/', express.static(__dirname + '/src'))
 
 app.get('/', function (req, res) {
   res.sendFile('/src/index.html', {
