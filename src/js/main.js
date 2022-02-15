@@ -1,7 +1,7 @@
 {
 
   let view = {
-    el: '#main',
+    el: '#main .main-header',
     template: `
       <div class="main-title">__name</div>
     `,

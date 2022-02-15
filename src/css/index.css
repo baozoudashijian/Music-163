@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
 }
+
 body {
     box-sizing: border-box;
 }
@@ -14,20 +15,24 @@ ul, li {
     box-shadow: 0 4px 8px 0 rgb(51 51 51 / 8%);
     position: relative;
 }
+
 .header-nav .logo, .header-nav .nav-content {
     align-items: center;
     height: 52px;
 }
+
 .header-nav .logo {
     display: inline-flex;
     padding: 0 20px;
 }
+
 .header-nav .nav-content {
     display: flex;
     justify-content: flex-end;
     font-size: 12px;
     padding-right: 40px;
 }
+
 .header-nav .nav-content .nav-link {
     color: #333;
 }
@@ -38,6 +43,7 @@ ul, li {
     width: 100%;
     height: 100vh;
 }
+
 .con-section > slider {
     display: flex;
     flex-direction: column;
@@ -45,12 +51,14 @@ ul, li {
     background: #fcfcfc;
     box-shadow: 0 2px 4px 0 rgb(51 51 51 / 8%);
 }
+
 .con-section .menu-title {
     display: flex;
     align-items: center;
     height: 60px;
     padding: 13px 20px;
 }
+
 .con-section .menu-title > h2 {
     margin: 0;
     width: 100%;
@@ -60,6 +68,7 @@ ul, li {
     color: #000000;
     position: relative;
 }
+
 .con-section .menu-title > h2:after {
     content: " ";
     width: 100%;
@@ -69,17 +78,20 @@ ul, li {
     bottom: 0;
     background-color: #eee;
 }
+
 .menu-list {
     margin: 0;
     padding: 0;
     flex-grow: 1;
 }
+
 .menu-list .item {
     font-size: 14px;
     padding: 0;
     margin-bottom: 8px;
     position: relative;
 }
+
 .menu-list .item .link {
     display: block;
     text-decoration: none;
@@ -87,6 +99,7 @@ ul, li {
     padding: 10px 24px;
     color: #262626;
 }
+
 .menu-list .item.active .link {
     display: block;
     text-decoration: none;
@@ -95,6 +108,7 @@ ul, li {
     color: #00aae7;
     background-color: #f4fcff
 }
+
 .menu-list .item.active:after {
     content: '';
     position: absolute;
@@ -104,12 +118,43 @@ ul, li {
     width: 4px;
     background-color: #00aae7;
 }
+
 #main {
     width: 100%;
     min-height: 100vh;
 }
+
 .main-title {
     height: 60px;
     line-height: 60px;
     padding: 0 24px;
 }
+
+#main .table-container {
+    padding: 10px 24px;
+}
+
+#main .table-action {
+    height: 53px;
+}
+
+#main .btn-primary {
+    color: #fff;
+    background-color: #00aae7;
+    border-radius: 2px;
+    height: 32px;
+    font-size: 14px;
+    outline: none;
+    border: none;
+    padding: 0 15px;
+}
+
+#main .btn-primary:focus {
+    box-shadow: none;
+}
+
+#main .btn-primary:hover {
+    background-color: rgb(54, 210, 246);
+    border: none;
+}
+
