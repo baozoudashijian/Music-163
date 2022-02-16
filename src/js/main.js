@@ -23,7 +23,6 @@
     },
     bindEvents() {
       window.eventHub.on('update:menuList', (data) => {
-        console.log(data, '123');
         this.model = data
         this.view.render(data)
       })

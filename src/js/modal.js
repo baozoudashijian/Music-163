@@ -13,15 +13,15 @@
               <form id="newSong-form">
                 <div class="mb-3">
                   <label for="name" class="form-label">名称:</label>
-                  <input type="text" class="form-control" id="name" >
+                  <input type="text" class="form-control" name="name" >
                 </div>
                 <div class="mb-3">
                   <label for="singer" class="form-label">歌手:</label>
-                  <input type="text" class="form-control" id="singer">
+                  <input type="text" class="form-control" name="singer">
                 </div>
                 <div class="mb-3">
                   <label for="link" class="form-label">外链:</label>
-                  <input type="text" class="form-control" id="link">
+                  <input type="text" class="form-control" name="link">
                 </div>
                 <button type="submit" class="btn btn-primary">保存</button>
               </form>
@@ -38,7 +38,30 @@
       $(this.el).append(this.template)
     }
   }
-  let model = {}
+  let model = {
+    create(options) {
+      // 声明 class
+      console.log(AV)
+      AV.init({
+        appId: 'jXow4jGHN652DLfE6c3rwRSp-gzGzoHsz',
+        appKey: 'jmG07sfWYrP5p6wI9md9Cmk9',
+        serverURL: 'https://www.jxow4jgh.lc-cn-n1-shared.com'
+      });
+      const SongList = AV.Object.extend('SongList');
+
+      const sl = new SongList();
+
+      for(let key in options) {
+        sl.set(key, options[key]);
+      }
+
+      sl.save().then((data) => {
+        console.log(`保存成功。数据 =>：${data}`);
+      }, (error) => {
+        console.log(error)
+      });
+    }
+  }
   let controller = {
     init(view, model) {
       this.view = view
@@ -47,9 +70,13 @@
       this.bindEvents()
     },
     bindEvents() {
-      console.log($(this.view.el).find('button[type=submit]'))
-      $(this.view.el).find('#newSong-form').on('submit', function(e) {
+      $(this.view.el).find('#newSong-form').on('submit', (e) => {
         e.preventDefault()
+        let options = {}
+        console.log(e.target)
+        Array.from(e.target).map((item) => options[item.name] = item.value)
+        console.log(options)
+        this.model.create(options)
       })
     }
   }
