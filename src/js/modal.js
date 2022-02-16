@@ -41,18 +41,19 @@
   let model = {
     create(options) {
       // 声明 class
-      console.log(AV)
       AV.init({
-        appId: 'jXow4jGHN652DLfE6c3rwRSp-gzGzoHsz',
-        appKey: 'jmG07sfWYrP5p6wI9md9Cmk9',
-        serverURL: 'https://www.jxow4jgh.lc-cn-n1-shared.com'
+        appId: window.appId,
+        appKey: window.appKey,
+        serverURL: window.serverURL
       });
       const SongList = AV.Object.extend('SongList');
 
       const sl = new SongList();
 
       for(let key in options) {
-        sl.set(key, options[key]);
+        if(key) {
+          sl.set(key, options[key]);
+        }
       }
 
       sl.save().then((data) => {
