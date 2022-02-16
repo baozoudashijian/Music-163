@@ -10,7 +10,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="newSong-form">
                 <div class="mb-3">
                   <label for="name" class="form-label">名称:</label>
                   <input type="text" class="form-control" id="name" >
@@ -44,6 +44,13 @@
       this.view = view
       this.model = model
       this.view.render()
+      this.bindEvents()
+    },
+    bindEvents() {
+      console.log($(this.view.el).find('button[type=submit]'))
+      $(this.view.el).find('#newSong-form').on('submit', function(e) {
+        e.preventDefault()
+      })
     }
   }
   controller.init(view, model)
