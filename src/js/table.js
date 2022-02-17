@@ -11,6 +11,7 @@
           <th scope="col">歌曲名</th>
           <th scope="col">歌手</th>
           <th scope="col">外链</th>
+          <th scope="col">操作</th>
         </tr>
       </thead>
       <tbody id="songList">
@@ -23,9 +24,13 @@
       for(let i=0; i<data.length; i++) {
         $('#songList').append(
         `<tr>
-          <td>${data[i].name}</td>
-          <td>${data[i].singer}</td>
-          <td>${data[i].link}</td>
+          <td valign="middle">${data[i].name}</td>
+          <td valign="middle">${data[i].singer}</td>
+          <td valign="middle">${data[i].link}</td>
+          <td>
+            <button type="button" class="btn btn-link">删除</button>
+            <button type="button" class="btn btn-link">修改</button>
+          </td>
         </tr>`
         )
       }
