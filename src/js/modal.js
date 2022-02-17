@@ -23,13 +23,11 @@
                   <label for="link" class="form-label">外链:</label>
                   <input type="text" class="form-control" name="link">
                 </div>
-                <button type="submit" class="btn btn-primary">保存</button>
+                <div class="submit-btn">
+                  <button type="submit" class="btn btn-primary">保存</button>
+                </div>
               </form>
             </div>
-            <!--      <div class="modal-footer">-->
-            <!--        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-            <!--        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>-->
-            <!--      </div>-->
           </div>
         </div>
       </div>
