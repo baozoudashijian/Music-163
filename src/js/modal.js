@@ -24,7 +24,7 @@
                   <input type="text" class="form-control" name="link">
                 </div>
                 <div class="submit-btn">
-                  <button type="submit" class="btn btn-primary">保存</button>
+                  <button data-bs-dismiss="modal" type="submit" class="btn btn-primary">保存</button>
                 </div>
               </form>
             </div>
@@ -39,11 +39,6 @@
   let model = {
     create(options) {
       // 声明 class
-      AV.init({
-        appId: window.appId,
-        appKey: window.appKey,
-        serverURL: window.serverURL
-      });
       const SongList = AV.Object.extend('SongList');
 
       const sl = new SongList();
@@ -55,7 +50,7 @@
       }
 
       sl.save().then((data) => {
-        console.log(`保存成功。数据 =>：${data}`);
+        window.eventHub.emit('save:song')
       }, (error) => {
         console.log(error)
       });
