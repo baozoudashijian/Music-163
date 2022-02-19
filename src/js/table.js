@@ -72,13 +72,6 @@
         })
 
       })
-      window.eventHub.on('save:song', () => {
-        this.model.queryAll().then(() => {
-          _this.close()
-        }, (err) => {
-          console.log(err)
-        })
-      })
     },
     bindEvents() {
       $(this.view.el).on('click', '#songList button', (e) => {

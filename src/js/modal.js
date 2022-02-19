@@ -62,11 +62,7 @@
         }
       }
 
-      sl.save().then((data) => {
-        window.eventHub.emit('save:song')
-      }, (error) => {
-        console.log(error)
-      });
+      return sl.save();
     },
     update(options) {
       const sl = AV.Object.createWithoutData('SongList', options.id);
@@ -114,7 +110,9 @@
             window.eventHub.emit('update:songList')
           })
         } else {
-          this.model.create(options)
+          this.model.create(options).then(() => {
+            window.eventHub.emit('update:songList')
+          })
         }
       })
       
