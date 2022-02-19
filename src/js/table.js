@@ -27,7 +27,7 @@
           <td valign="middle">${data[i].name}</td>
           <td valign="middle">${data[i].singer}</td>
           <td valign="middle">${data[i].link}</td>
-          <td>
+          <td data-id=${data[i].id}>
             <button type="button" class="btn btn-link">删除</button>
             <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
           </td>
@@ -45,7 +45,7 @@
     create() {
       const query = new AV.Query('SongList');
       query.find().then((songs) => {
-        const newData = songs.map(item => item.attributes)
+        const newData = songs.map(item => Object.assign(item.attributes, {id: item.id}))
         this.data.songList = newData
         window.eventHub.emit('update:songList', newData)
       });
@@ -70,8 +70,18 @@
       })
     },
     bindEvents() {
-      $(this.view.el).on('click', '#songList button', () => {
-        console.log(this)
+      $(this.view.el).on('click', '#songList button', (e) => {
+        let t = e.target.innerText
+        let id = $(e.target).parent().attr('data-id')
+        if(t == '修改') {
+          window.eventHub.emit('update:song', this.model.data.songList.filter(item => item.id === id)[0])
+        }
+      })
+
+      $(this.view.el).on('click', '.table-action button', (e) => {
+        console.log(123)
+        e.preventDefault()
+        window.eventHub.emit('update:song', {name: '', singer: '', link: '', id: ''})
       })
     }
   }

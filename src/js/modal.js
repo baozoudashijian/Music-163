@@ -34,15 +34,16 @@
     `,
     render(data) {
       let html = this.template
-      console.log(html, '1')
       for (let key in data) {
         html = html.replace(`__${key}`, data[key])
       }
-      console.log(html, '2')
       $(this.el).html(html)
     },
     moodRender(data) {
       $('#exampleModalLabel').text(data.action)
+      $('#newSong-form input[name="name"]').val(data.name)
+      $('#newSong-form input[name="singer"]').val(data.singer)
+      $('#newSong-form input[name="link"]').val(data.link)
     }
   }
   let model = {
@@ -74,20 +75,26 @@
       this.model = model
       this.view.render(this.model.data)
       this.bindEvents()
+      this.bindEventHub()
+    },
+    bindEventHub() {
+      window.eventHub.on('update:song', (data) => {
+        this.model.data = Object.assign(this.model.data, data)
+        console.log(this.model.data)
+      })
     },
     bindEvents() {
       $(this.view.el).find('#newSong-form').on('submit', (e) => {
         e.preventDefault()
         let options = {}
         Array.from(e.target).map((item) => options[item.name] = item.value)
-        console.log(options)
         this.model.create(options)
       })
+      
 
       var myModal = document.getElementById('exampleModal')
       myModal.addEventListener('shown.bs.modal', (e) => {
         let action = e.relatedTarget.innerText
-        console.log(action)
         switch (action) {
           case '新建歌曲':
             this.model.data.action = '新建歌曲'
