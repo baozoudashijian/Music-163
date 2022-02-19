@@ -29,8 +29,8 @@
           <td valign="middle">${data[i].singer}</td>
           <td valign="middle">${data[i].link}</td>
           <td data-id=${data[i].id}>
-            <button type="button" class="btn btn-link">删除</button>
             <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
+            <button type="button" class="btn btn-link">删除</button>
           </td>
         </tr>`
         )
@@ -50,6 +50,10 @@
         this.data.songList = newData
         return songs
       });
+    },
+    remove(id) {
+      const sl = AV.Object.createWithoutData('SongList', id);
+      return sl.destroy();
     }
   }
 
@@ -80,15 +84,25 @@
         if (t == '修改') {
           window.eventHub.emit('update:song', this.model.data.songList.filter(item => item.id === id)[0])
         }
+        if(t == '删除') {
+          let d = window.confirm('确定要删除当前歌曲吗？')
+          if(d) {
+            this.model.remove(id).then(() => {
+              window.eventHub.emit('update:songList')
+            })
+          } else {
+            console.log('取消')
+          }
+        }
       })
 
+      // 新增清空数据
       $(this.view.el).on('click', '.table-action button', (e) => {
         e.preventDefault()
         window.eventHub.emit('update:song', { name: '', singer: '', link: '', id: '' })
       })
     },
     close() {
-      console.log(123)
       $('#table-loading').hide()
     }
   }
