@@ -67,6 +67,16 @@
       }, (error) => {
         console.log(error)
       });
+    },
+    update(options) {
+      const sl = AV.Object.createWithoutData('SongList', options.id);
+
+      for (let key in options) {
+        if (key) {
+          sl.set(key, options[key]);
+        }
+      }
+      return sl.save();
     }
   }
   let controller = {
@@ -87,12 +97,25 @@
       $(this.view.el).find('#newSong-form').on('submit', (e) => {
         e.preventDefault()
         let options = {}
-        Array.from(e.target).map((item) => options[item.name] = item.value)
-        if(!options.name || !options.singer || !options.link) {
-          alert('请完善信息！')
-          return false
+          Array.from(e.target).map((item) => options[item.name] = item.value)
+          if(!options.name || !options.singer || !options.link) {
+            alert('请完善信息！')
+            return false
+          }
+        
+        if(this.model.data.id) {
+          let data = {
+            name: options.name,
+            id: this.model.data.id,
+            link: options.link,
+            singer: options.singer,
+          }
+          this.model.update(data).then((res) => {
+            window.eventHub.emit('update:songList')
+          })
+        } else {
+          this.model.create(options)
         }
-        this.model.create(options)
       })
       
 

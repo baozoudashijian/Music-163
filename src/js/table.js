@@ -22,9 +22,9 @@
   `,
     render(data) {
       $(this.el).html(this.template)
-      for(let i=0; i<data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         $('#songList').append(
-        `<tr>
+          `<tr>
           <td valign="middle">${data[i].name}</td>
           <td valign="middle">${data[i].singer}</td>
           <td valign="middle">${data[i].link}</td>
@@ -35,7 +35,7 @@
         </tr>`
         )
       }
-      
+
     }
   }
 
@@ -43,10 +43,10 @@
     data: {
       songList: []
     },
-    create() {
+    queryAll() {
       const query = new AV.Query('SongList');
       return query.find().then((songs) => {
-        const newData = songs.map(item => Object.assign(item.attributes, {id: item.id}))
+        const newData = songs.map(item => Object.assign(item.attributes, { id: item.id }))
         this.data.songList = newData
         return songs
       });
@@ -57,23 +57,25 @@
     init(view, model) {
       this.view = view
       this.model = model
-      this.model.create().then((res) => {
-        window.eventHub.emit('update:songList', this.model.data.songList)
-        this.close()
-      })
-      this.view.render(this.model.data.songList)
-      this.bindEventHub()
       this.bindEvents()
+      this.bindEventHub()
+      window.eventHub.emit('update:songList')
+      this.view.render(this.model.data.songList)
+      
     },
     bindEventHub() {
       let _this = this
-      window.eventHub.on('update:songList', (songs) => {
-        this.view.render(songs)
+      window.eventHub.on('update:songList', () => {
+        _this.model.queryAll().then((res) => {
+          _this.view.render(this.model.data.songList)
+          _this.close()
+        })
+
       })
       window.eventHub.on('save:song', () => {
-        this.model.create().then(() => {
+        this.model.queryAll().then(() => {
           _this.close()
-        },(err) => {
+        }, (err) => {
           console.log(err)
         })
       })
@@ -82,14 +84,14 @@
       $(this.view.el).on('click', '#songList button', (e) => {
         let t = e.target.innerText
         let id = $(e.target).parent().attr('data-id')
-        if(t == '修改') {
+        if (t == '修改') {
           window.eventHub.emit('update:song', this.model.data.songList.filter(item => item.id === id)[0])
         }
       })
 
       $(this.view.el).on('click', '.table-action button', (e) => {
         e.preventDefault()
-        window.eventHub.emit('update:song', {name: '', singer: '', link: '', id: ''})
+        window.eventHub.emit('update:song', { name: '', singer: '', link: '', id: '' })
       })
     },
     close() {
