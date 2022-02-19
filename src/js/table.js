@@ -29,7 +29,7 @@
           <td valign="middle">${data[i].link}</td>
           <td>
             <button type="button" class="btn btn-link">删除</button>
-            <button type="button" class="btn btn-link">修改</button>
+            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
           </td>
         </tr>`
         )
@@ -59,6 +59,7 @@
       this.model.create()
       this.view.render(this.model.data.songList)
       this.bindEventHub()
+      this.bindEvents()
     },
     bindEventHub() {
       window.eventHub.on('update:songList', (songs) => {
@@ -66,6 +67,11 @@
       })
       window.eventHub.on('save:song', () => {
         this.model.create()
+      })
+    },
+    bindEvents() {
+      $(this.view.el).on('click', '#songList button', () => {
+        console.log(this)
       })
     }
   }
