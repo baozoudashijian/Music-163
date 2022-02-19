@@ -15,8 +15,9 @@
         </tr>
       </thead>
       <tbody id="songList">
-        
+      
       </tbody>
+      
     </table>
   `,
     render(data) {
@@ -44,10 +45,10 @@
     },
     create() {
       const query = new AV.Query('SongList');
-      query.find().then((songs) => {
+      return query.find().then((songs) => {
         const newData = songs.map(item => Object.assign(item.attributes, {id: item.id}))
         this.data.songList = newData
-        window.eventHub.emit('update:songList', newData)
+        return songs
       });
     }
   }
@@ -56,17 +57,25 @@
     init(view, model) {
       this.view = view
       this.model = model
-      this.model.create()
+      this.model.create().then((res) => {
+        window.eventHub.emit('update:songList', this.model.data.songList)
+        this.close()
+      })
       this.view.render(this.model.data.songList)
       this.bindEventHub()
       this.bindEvents()
     },
     bindEventHub() {
+      let _this = this
       window.eventHub.on('update:songList', (songs) => {
         this.view.render(songs)
       })
       window.eventHub.on('save:song', () => {
-        this.model.create()
+        this.model.create().then(() => {
+          _this.close()
+        },(err) => {
+          console.log(err)
+        })
       })
     },
     bindEvents() {
@@ -79,10 +88,13 @@
       })
 
       $(this.view.el).on('click', '.table-action button', (e) => {
-        console.log(123)
         e.preventDefault()
         window.eventHub.emit('update:song', {name: '', singer: '', link: '', id: ''})
       })
+    },
+    close() {
+      console.log(123)
+      $('#table-loading').hide()
     }
   }
   controller.init(view, model)

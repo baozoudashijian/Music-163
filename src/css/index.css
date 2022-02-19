@@ -193,3 +193,15 @@ ul, li {
     font-size: 14px;
     color: #00aae7;
 }
+.table-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #212529;
+    opacity: .5;
+}

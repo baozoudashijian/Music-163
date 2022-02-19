@@ -88,6 +88,10 @@
         e.preventDefault()
         let options = {}
         Array.from(e.target).map((item) => options[item.name] = item.value)
+        if(!options.name || !options.singer || !options.link) {
+          alert('请完善信息！')
+          return false
+        }
         this.model.create(options)
       })
       
