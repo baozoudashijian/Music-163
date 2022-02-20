@@ -3,6 +3,3 @@
 /.idea
 /dist
 /yarn.lock
-leancloud.js
-package.json
-qiniu-key.json
