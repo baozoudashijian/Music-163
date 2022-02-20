@@ -23,6 +23,10 @@
                   <label for="link" class="form-label">外链:</label>
                   <input type="text" class="form-control" name="link">
                 </div>
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">上传音乐</label>
+                  <input class="form-control" type="file" id="formFile">
+                </div>
                 <div class="submit-btn">
                   <button data-bs-dismiss="modal" type="submit" class="btn btn-primary">保存</button>
                 </div>
@@ -44,6 +48,10 @@
       $('#newSong-form input[name="name"]').val(data.name)
       $('#newSong-form input[name="singer"]').val(data.singer)
       $('#newSong-form input[name="link"]').val(data.link)
+    },
+    linkRender(link) {
+      console.log(123)
+      $('#newSong-form input[name="link"]').val(link)
     }
   }
   let model = {
@@ -73,6 +81,9 @@
         }
       }
       return sl.save();
+    },
+    getToken() {
+      return axios.get('/uploadToken')
     }
   }
   let controller = {
@@ -86,20 +97,19 @@
     bindEventHub() {
       window.eventHub.on('update:song', (data) => {
         this.model.data = Object.assign(this.model.data, data)
-        console.log(this.model.data)
       })
     },
     bindEvents() {
       $(this.view.el).find('#newSong-form').on('submit', (e) => {
         e.preventDefault()
         let options = {}
-          Array.from(e.target).map((item) => options[item.name] = item.value)
-          if(!options.name || !options.singer || !options.link) {
-            alert('请完善信息！')
-            return false
-          }
-        
-        if(this.model.data.id) {
+        Array.from(e.target).map((item) => options[item.name] = item.value)
+        if (!options.name || !options.singer || !options.link) {
+          alert('请完善信息！')
+          return false
+        }
+
+        if (this.model.data.id) {
           let data = {
             name: options.name,
             id: this.model.data.id,
@@ -115,7 +125,18 @@
           })
         }
       })
-      
+
+      $(this.view.el).find('input[type="file"]').on('change', (e) => {
+          let selectedFile = e.target.files[0]
+
+          this.model.getToken().then(({ data }) => {
+            let { uploadToken } = data
+
+            this.uploadFile(selectedFile, selectedFile.name, uploadToken)
+            // this.getUploadUrl(data)
+          })
+      })
+
 
       var myModal = document.getElementById('exampleModal')
       myModal.addEventListener('shown.bs.modal', (e) => {
@@ -132,7 +153,25 @@
         }
         this.view.moodRender(this.model.data)
       })
-    }
+    },
+    uploadFile(file, name, token) {
+      const _this = this
+      const observable = qiniu.upload(file, name, token)
+      const subscription = observable.subscribe(function next(res) {
+
+      }, function error(err) {
+
+      }, function complete(res) {
+        let { key } = res
+        _this.view.linkRender(window.baseURL + '/' + key)
+      })
+    },
+    // getUploadUrl({uploadToken, config}) {
+    //   console.log(123)
+    //   qiniu.getUploadUrl(config, uploadToken).then(res => {
+    //     console.log(res, 'url')
+    //   })
+    // }
   }
   controller.init(view, model)
 }

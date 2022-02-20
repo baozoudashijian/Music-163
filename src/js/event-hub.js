@@ -19,3 +19,5 @@ window.eventHub = {
     this.events[eventName].push(fn)
   }
 }
+
+window.baseURL = 'http://r7a0fbuny.hb-bkt.clouddn.com'

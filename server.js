@@ -18,7 +18,8 @@ app.get('/', function (req, res) {
 })
 
 app.get('/uploadToken', function (req, res) {
-  res.json({uploadToken: getToken()})
+  let { uploadToken, config} = getToken()
+  res.json({uploadToken, config})
 })
 
 
@@ -41,5 +42,5 @@ function getToken() {
   let uploadToken = putPolicy.uploadToken(mac);
 
   console.log(uploadToken)
-  return uploadToken
+  return {config, uploadToken}
 }
