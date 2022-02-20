@@ -25,7 +25,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="formFile" class="form-label">上传音乐</label>
-                  <input class="form-control" type="file" id="formFile">
+                  <input class="form-control" type="file" id="formFile" name="file">
                 </div>
                 <div class="submit-btn">
                   <button data-bs-dismiss="modal" type="submit" class="btn btn-primary">保存</button>
@@ -48,6 +48,7 @@
       $('#newSong-form input[name="name"]').val(data.name)
       $('#newSong-form input[name="singer"]').val(data.singer)
       $('#newSong-form input[name="link"]').val(data.link)
+      $('#newSong-form input[name="file"]').val('')
     },
     linkRender(link) {
       console.log(123)
