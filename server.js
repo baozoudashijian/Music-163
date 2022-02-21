@@ -6,6 +6,7 @@ const qiniu = require('qiniu')
 const app = express()
 
 // 签到
+// 签到
 // 指定静态目录
 app.use('/', express.static(__dirname))
 // 指定多个静态目录
