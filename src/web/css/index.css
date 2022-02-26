@@ -1,9 +1,10 @@
-body {
+
+html, body {
     font-size: 15px;
     background-color: #ffffff;
 }
 .page {
-    height: 100vh;
+    height: calc(100vh - 105px);
 }
 .sticky {
     position: fixed;

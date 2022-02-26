@@ -9,7 +9,7 @@ window.eventHub = {
         this.events[event].push(callback)
     },
     emit: function(event, data) {
-        this.events[event].array.forEach(func => {
+        this.events[event].forEach(func => {
             func.call(this, data)
         });
     }
