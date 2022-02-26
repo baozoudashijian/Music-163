@@ -59,6 +59,7 @@ section.topbar a::after {
     top: 1px;
 }
 .tabs-nav > li > .text::after {
+    display: none;
     content: '';
     position: absolute;
     width: 100%;
@@ -67,4 +68,15 @@ section.topbar a::after {
     bottom: 1px;
     left: 0;
 }
-
+.tabs-nav > li.show > .text::after {
+    display: block;
+}
+.tab-content {
+    margin-top: 105px;
+}
+.tab-content > li {
+    display: none;
+}
+.tab-content > li:first-child {
+    display: block;
+}
