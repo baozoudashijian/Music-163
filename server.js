@@ -12,6 +12,7 @@ const app = express()
 app.use('/', express.static(__dirname))
 // 指定多个静态目录
 app.use('/', express.static(__dirname + '/src'))
+app.use('/', express.static(__dirname + '/src/web'))
 
 app.get('/', function (req, res) {
   res.sendFile('/src/web/index.html', {
