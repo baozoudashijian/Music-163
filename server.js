@@ -13,6 +13,12 @@ app.use('/', express.static(__dirname))
 // 指定多个静态目录
 app.use('/', express.static(__dirname + '/src'))
 
+app.get('/', function (req, res) {
+  res.sendFile('/src/web/index.html', {
+    root: __dirname
+  })
+})
+
 app.get('/manager', function (req, res) {
   res.sendFile('/src/manager/index.html', {
     root: __dirname
