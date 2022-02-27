@@ -15,15 +15,16 @@ let controller = {
         this.bindEventHub()
         this.loadPageOneModel()
         this.loadPageTwoModel()
+        this.loadPageThreeModel()
     },
     bindEvent: function() {
         $(this.view.el).on('click', '.tabs-nav li', function(e) {
             let dataTabName = $(this).attr('data-tab-name')
             // content展示
-            $('.tab-content li[class=' + dataTabName + ']').show().siblings().hide()
+            // $('.tab-content li[class=' + dataTabName + ']').show().siblings().hide()
             // 下划线展示逻辑
             $(this).addClass('show').siblings().removeClass('show')
-            window.eventHub.emit('test', dataTabName)
+            window.eventHub.emit('select:tab', dataTabName)
         })
     },
     bindEventHub: function() {
@@ -39,6 +40,11 @@ let controller = {
     loadPageTwoModel: function() {
         let script = document.createElement('script')
         script.src = './js/page-2.js'
+        document.body.append(script)
+    },
+    loadPageThreeModel: function() {
+        let script = document.createElement('script')
+        script.src = './js/page-3.js'
         document.body.append(script)
     }
 }

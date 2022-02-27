@@ -1,6 +1,6 @@
 {
     let view = {
-        el: '.page-2',
+        el: '.page-3',
         show() {
             $(this.el).show()
         },
@@ -21,12 +21,12 @@
             this.bindEventHub()
         },
         bindEvent() {
-            console.log('加载page2')
+            console.log('加载page3')
         },
         bindEventHub() {
             let _this = this
             window.eventHub.on('select:tab', function(data) {
-                if(data == 'page-2') {
+                if(data == 'page-3') {
                     console.log(data)
                     $(_this.view.el).show()
                 }else{
