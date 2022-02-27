@@ -13,6 +13,8 @@ let controller = {
         this.model = model
         this.bindEvent()
         this.bindEventHub()
+        this.loadPageOneModel()
+        this.loadPageTwoModel()
     },
     bindEvent: function() {
         $(this.view.el).on('click', '.tabs-nav li', function(e) {
@@ -28,6 +30,16 @@ let controller = {
         window.eventHub.on('test', function(data) {
             console.log(data)
         })
+    },
+    loadPageOneModel: function() {
+        let script = document.createElement('script')
+        script.src = './js/page-1.js'
+        document.body.append(script)
+    },
+    loadPageTwoModel: function() {
+        let script = document.createElement('script')
+        script.src = './js/page-2.js'
+        document.body.append(script)
     }
 }
 
