@@ -19,6 +19,8 @@
             this.model = model
             this.bindEvent()
             this.bindEventHub()
+            this.loadModelOne()
+            this.loadModelTwo()
         },
         bindEvent() {
             console.log('加载page1')
@@ -33,6 +35,16 @@
                     $(_this.view.el).hide()
                 }
             })
+        },
+        loadModelOne() {
+            let script = document.createElement('script')
+            script.src = './js/page-1-1.js'
+            document.body.append(script)
+        },
+        loadModelTwo() {
+            let script = document.createElement('script')
+            script.src = './js/page-1-2.js'
+            document.body.append(script)
         }
     }
     controller.init(view, model)
