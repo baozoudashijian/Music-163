@@ -145,3 +145,46 @@ section.art .copyright {
     color: #888;
     transform: scale(.75);
 }
+
+#songs a {
+    display: flex;
+    padding-left: 10px;
+    color: #333;
+}
+#songs a .songItem {
+    flex: 1 1 auto;
+    display: flex;
+}
+#songs a .songItem .songLeft {
+    padding: 6px 0;
+    width: 0;
+    flex: 1 1 auto;
+}
+#songs a .songItem .songLeft .name {
+    font-size: 17px;
+}
+#songs a .songItem .songLeft .detail {
+    font-size: 12px;
+    color: #888;
+}
+#songs a .songItem .songLeft .detail .icon {
+    display: inline-block;
+    width: 12px;
+    height: 8px;
+    margin-right: 4px;
+    background: url('../image/index_icon_2x.png') no-repeat;
+    background-size: 166px 97px;
+}
+#songs a .songItem .songRight {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+#songs a .songItem .songRight span {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../image/index_icon_2x.png') no-repeat;
+    background-size: 166px 97px;
+    background-position: -24px 0;
+}
