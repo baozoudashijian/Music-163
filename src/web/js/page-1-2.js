@@ -2,7 +2,7 @@
     let view = {
         el: '#songs',
         template: `<li>
-                        <a href="../index.html?id=__id">
+                        <a href="../play.html?id=__id">
                             <div class="songItem">
                                 <div class="songLeft">
                                     <div class="name">__name</div>
