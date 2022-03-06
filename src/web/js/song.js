@@ -14,11 +14,14 @@
 // console.dir(PM, 'id')
 
 const PlayHeader = React.createClass({
+    toPlay() {
+        console.log('播放音乐')
+    },
     render() {
         return (
             <div className="ph-container">
                 <div className="disk">
-                    <div className="song-return">
+                    <div className="song-return" onClick={this.toPlay}>
                         <div className="wrapper">
                             <div className="img">
                                 <img className="u-img" alt="song-img" src="https://p1.music.126.net/8IEucUOp6E1AJfDb5RrPNw==/109951167104850464.jpg?imageView&thumbnail=360y360&quality=75&tostatic=0" />
