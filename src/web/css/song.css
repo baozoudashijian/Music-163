@@ -96,6 +96,10 @@
 .song-return .wrapper .img .u-img {
     width: 100%;
 }
+
+.song-return .wrapper .img .u-img .u-audio {
+    
+}
 .song-plybtn {
     width: 56px;
     height: 56px;
