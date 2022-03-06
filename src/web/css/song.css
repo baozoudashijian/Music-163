@@ -34,7 +34,7 @@
     top: 0;
     left: 50%;
     transform: translate(-50%, 0);
-    background: url(//s3.music.126.net/mobile-new/img/needle-ab.png?4b81da0…=) no-repeat;
+    background: url(../image//needle-ab.png) no-repeat;
     background-size: contain;
     z-index: 11;
 }
@@ -74,7 +74,7 @@
     top: 0;
     bottom: 0;
     z-index: 2;
-    background: url(//s3.music.126.net/mobile-new/img/disc.png?d3bdd10…=) no-repeat;
+    background: url(../image/disc.png) no-repeat;
     background-size: contain;
 }
 .song-return .wrapper {
@@ -89,7 +89,7 @@
     height: 100%;
     border-radius: 50%;
     overflow: hidden;
-    background: url(//s3.music.126.net/mobile-new/img/disc_default.png?ba7c53e…=) no-repeat;
+    background: url(../image/disc_default.png) no-repeat;
     background-size: contain;
     z-index: 1;
 }
@@ -98,7 +98,7 @@
 }
 
 .song-return .wrapper .img .u-img .u-audio {
-    
+
 }
 .song-plybtn {
     width: 56px;
