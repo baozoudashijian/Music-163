@@ -1,7 +1,7 @@
 // console.log(React, '引入react');
 
 // function PlayMusic() {
-    
+
 // }
 
 // PlayMusic.prototype = React.Component;
@@ -12,11 +12,39 @@
 // var PM = new PlayMusic();
 // // console.log(pm, '12');
 // console.dir(PM, 'id')
-console.log(React)
-const PlayMusic = React.createClass({
+
+const PlayHeader = React.createClass({
     render() {
-        return (<div>1123</div>)
+        return (
+            <div className="ph-container">
+
+            </div>
+        )
     }
 })
-console.dir(PlayMusic)
+const PlayBody = React.createClass({
+    render() {
+        return (
+            <div>body</div>
+        )
+    }
+})
+
+const PlayMusic = React.createClass({
+    render() {
+        return (
+            <div>
+                <div className="pm-container">
+                
+                </div>
+                <div className="top-shade"></div>
+                <div className="bottom-shade"></div>
+                <PlayHeader />
+                <PlayBody />
+            </div>
+            
+        )
+    }
+})
+
 ReactDOM.render(<PlayMusic />, document.getElementById('playSong'));
