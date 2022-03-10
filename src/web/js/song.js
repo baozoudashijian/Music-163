@@ -22,6 +22,10 @@ const PlayHeader = React.createClass({
             catchState: () => {}
         }
     },
+    componentDidMount() {
+        let id = window.app.getParams('id')
+        console.log(id)
+    },
     toPlay() {
         console.log('播放音乐')
         console.log(this.refs.music)
