@@ -9,5 +9,14 @@ window.app = {
             res[key] = b[1]
         })
         return  res[q]
+    },
+    getSongPlay(id) {
+        const query = new AV.Query('SongList');
+        return query.get(id).then((sl) => {
+            return sl
+            // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
+            // const title     = todo.get('title');
+            // const priority  = todo.get('priority');
+        });
     }
 }

@@ -15,7 +15,7 @@
 
 const PlayHeader = React.createClass({
     getInitialState() {
-        return { playState: false };
+        return { playState: false, songInfo: {} };
     },
     getDefaultProps() {
         return {
@@ -24,7 +24,11 @@ const PlayHeader = React.createClass({
     },
     componentDidMount() {
         let id = window.app.getParams('id')
-        console.log(id)
+        app.getSongPlay(id).then((res) => {
+            console.log(res)
+            console.log({...this.state.songInfo, ...res.attributes})
+            this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
+        })
     },
     toPlay() {
         console.log('播放音乐')
@@ -40,7 +44,8 @@ const PlayHeader = React.createClass({
         this.props.catchState(false)
     },
     render() {
-        const { playState } = this.state
+        const { playState, songInfo } = this.state
+        console.log(songInfo, 'songInfo')
         return (
             <div className="ph-container">
                 <div className="disk">
@@ -49,7 +54,7 @@ const PlayHeader = React.createClass({
                             <div className={['img', playState ? 'active':''].join(' ')}>
                                 <img className="u-img" alt="song-img" src="https://p1.music.126.net/8IEucUOp6E1AJfDb5RrPNw==/109951167104850464.jpg?imageView&thumbnail=360y360&quality=75&tostatic=0" />
                                 <div className="u-audio">
-                                    <audio ref="music" controls src="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3"></audio>
+                                    <audio ref="music" controls src={songInfo.link}></audio>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +67,9 @@ const PlayHeader = React.createClass({
                     }
 
                 </div>
-                <div className="lrc"></div>
+                <div className="lrc">
+                    <h1>{songInfo.singer}-{songInfo.name}</h1>
+                </div>
             </div>
         )
     }
