@@ -27,6 +27,10 @@
                   <label for="formFile" class="form-label">上传音乐</label>
                   <input class="form-control" type="file" id="formFile" name="file">
                 </div>
+                <div class="mb-3">
+                  <label for="lyric" class="form-label">歌词</label>
+                  <textarea class="form-control" rows="3" name="lyric"></textarea>
+                </div>
                 <div class="submit-btn">
                   <button data-bs-dismiss="modal" type="submit" class="btn btn-primary">保存</button>
                 </div>
@@ -105,7 +109,7 @@
         e.preventDefault()
         let options = {}
         Array.from(e.target).map((item) => options[item.name] = item.value)
-        if (!options.name || !options.singer || !options.link) {
+        if (!options.name || !options.singer || !options.link || !options.lyric) {
           alert('请完善信息！')
           return false
         }
@@ -116,6 +120,7 @@
             id: this.model.data.id,
             link: options.link,
             singer: options.singer,
+            lyric: options.lyric
           }
           this.model.update(data).then((res) => {
             window.eventHub.emit('update:songList')
