@@ -27,10 +27,12 @@ const PlayHeader = React.createClass({
         app.getSongPlay(id).then((res) => {
             this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
         })
+        this.refs.music.ontimeupdate = function(e) {
+            console.log(e)
+        }
     },
     toPlay() {
         console.log('播放音乐')
-        console.log(this.refs.music)
         this.refs.music.play()
         this.setState({ playState: true })
         this.props.catchState(true)
@@ -42,21 +44,23 @@ const PlayHeader = React.createClass({
         this.props.catchState(false)
     },
     processLyric(lyric) {
+        let res = []
         if(lyric) {
-            let res = []
             let a = lyric.replace(/\n/g,'@@').split('@@')
             let e = a.map((item) => {
                 let o = item.replace('[', "").replace(']', ",").split(',')
                 
                 res.push({time: o[0], lyc: o[1]})
             })
-            return res
         }
+        return res
+    },
+    onTimeUpdate(e) {
+        console.log(e)
     },
     render() {
         const { playState, songInfo } = this.state
-        console.log(songInfo, 'songInfo')
-        this.processLyric(songInfo.lyric)
+        let lrc = this.processLyric(songInfo.lyric)
         return (
             <div className="ph-container">
                 <div className="disk">
@@ -82,8 +86,8 @@ const PlayHeader = React.createClass({
                     <h1>{songInfo.singer}-{songInfo.name}</h1>
                     <div>
                         {
-                            songInfo.lyric && songInfo.lyric.map((item) => {
-
+                            lrc.map((item) => {
+                                return <p data-time={item.time} key={item.time}>{item.lyc}</p>
                             })
                         }
                     </div>

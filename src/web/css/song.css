@@ -71,6 +71,12 @@
 .ph-container .lrc {
     text-align: center;
     margin-top: 20px;
+    height: 200px;
+    color: hsla(0,0%,100%,.6);
+    overflow: hidden;
+}
+.ph-container .lrc > div {
+    margin-top: 14px;
 }
 .ph-container .lrc h1 {
     font-size: 18px;
