@@ -48,10 +48,12 @@
       $(this.el).html(html)
     },
     moodRender(data) {
+      console.log(data, 'ff')
       $('#exampleModalLabel').text(data.action)
       $('#newSong-form input[name="name"]').val(data.name)
       $('#newSong-form input[name="singer"]').val(data.singer)
       $('#newSong-form input[name="link"]').val(data.link)
+      $('#newSong-form textarea[name="lyric"]').val(data.lyric)
       $('#newSong-form input[name="file"]').val('')
     },
     linkRender(link) {

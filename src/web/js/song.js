@@ -25,8 +25,6 @@ const PlayHeader = React.createClass({
     componentDidMount() {
         let id = window.app.getParams('id')
         app.getSongPlay(id).then((res) => {
-            console.log(res)
-            console.log({...this.state.songInfo, ...res.attributes})
             this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
         })
     },
@@ -43,9 +41,22 @@ const PlayHeader = React.createClass({
         this.setState({ playState: false })
         this.props.catchState(false)
     },
+    processLyric(lyric) {
+        if(lyric) {
+            let res = []
+            let a = lyric.replace(/\n/g,'@@').split('@@')
+            let e = a.map((item) => {
+                let o = item.replace('[', "").replace(']', ",").split(',')
+                
+                res.push({time: o[0], lyc: o[1]})
+            })
+            return res
+        }
+    },
     render() {
         const { playState, songInfo } = this.state
         console.log(songInfo, 'songInfo')
+        this.processLyric(songInfo.lyric)
         return (
             <div className="ph-container">
                 <div className="disk">
@@ -69,6 +80,13 @@ const PlayHeader = React.createClass({
                 </div>
                 <div className="lrc">
                     <h1>{songInfo.singer}-{songInfo.name}</h1>
+                    <div>
+                        {
+                            songInfo.lyric && songInfo.lyric.map((item) => {
+
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         )
