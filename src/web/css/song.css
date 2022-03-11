@@ -78,6 +78,9 @@
 .ph-container .lrc > div {
     margin-top: 14px;
 }
+.ph-container .lrc > div p.active {
+    color: #fff;
+}
 .ph-container .lrc h1 {
     font-size: 18px;
     color: white;

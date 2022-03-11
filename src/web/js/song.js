@@ -27,9 +27,7 @@ const PlayHeader = React.createClass({
         app.getSongPlay(id).then((res) => {
             this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
         })
-        this.refs.music.ontimeupdate = function(e) {
-            console.log(e)
-        }
+        this.refs.music.ontimeupdate = this.onTimeUpdate
     },
     toPlay() {
         console.log('播放音乐')
@@ -50,13 +48,23 @@ const PlayHeader = React.createClass({
             let e = a.map((item) => {
                 let o = item.replace('[', "").replace(']', ",").split(',')
                 
-                res.push({time: o[0], lyc: o[1]})
+                res.push({time: app.exChangeTime(o[0]), lyc: o[1]})
             })
         }
         return res
     },
     onTimeUpdate(e) {
-        console.log(e)
+        let prevT = 0
+        let t = e.target.currentTime
+        $('.lrc > div p').each((index, item) => {
+            let pt = $(item).attr('data-time')
+            if(t >= prevT && t < pt) {
+                console.log(t, prevT, pt)
+                $(item).prev().addClass('active').siblings().removeClass('active')
+                prevT = pt
+
+            }
+        })
     },
     render() {
         const { playState, songInfo } = this.state

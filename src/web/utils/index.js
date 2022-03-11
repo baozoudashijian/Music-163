@@ -18,5 +18,10 @@ window.app = {
             // const title     = todo.get('title');
             // const priority  = todo.get('priority');
         });
+    },
+    exChangeTime(time) {
+        let a = time.split(':')
+        let b = parseInt(a[0])*60 + parseFloat(a[1])
+        return b
     }
 }
