@@ -28,6 +28,7 @@ const PlayHeader = React.createClass({
             this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
         })
         this.refs.music.ontimeupdate = this.onTimeUpdate
+        this.refs.music.onended = this.onEnded
     },
     toPlay() {
         console.log('播放音乐')
@@ -56,15 +57,34 @@ const PlayHeader = React.createClass({
     onTimeUpdate(e) {
         let prevT = 0
         let t = e.target.currentTime
+        let wrapper = $('.lrc').offset().top
         $('.lrc > div p').each((index, item) => {
             let pt = $(item).attr('data-time')
             if(t >= prevT && t < pt) {
-                console.log(t, prevT, pt)
                 $(item).prev().addClass('active').siblings().removeClass('active')
                 prevT = pt
-
             }
         })
+        this.lyricTransform()
+    },
+    onEnded(e) {
+        this.setState({ playState: false })
+        this.props.catchState(false)
+        $('.lrc > div').css('transform', 'translate(0, 0})')
+    },
+    lyricTransform() {
+        let paddingB = 8
+        let prevLen = $('.lrc > div p[class="active"]').prevAll().length - 1 // -1 你想高亮的那个行数
+        let pw = $('.lrc > div p').eq(0).height() + paddingB
+        if(prevLen > 0) {
+            $('.lrc > div').css('transform', `translate(0, ${-prevLen * pw + 'px'})`)
+        }
+        // console.log(pw, wrapper, pw - wrapper)
+        // console.log(pw - wrapper - translateY , '123')
+        // if(pw - wrapper - translateY > 0) {
+        //     $('.lrc > div').css('transform', `translate(0, ${-(pw - wrapper) + 'px'})`)
+        //     translateY = pw - wrapper
+        // }
     },
     render() {
         const { playState, songInfo } = this.state
@@ -90,8 +110,8 @@ const PlayHeader = React.createClass({
                     }
 
                 </div>
+                <h1>{songInfo.singer}-{songInfo.name}</h1>
                 <div className="lrc">
-                    <h1>{songInfo.singer}-{songInfo.name}</h1>
                     <div>
                         {
                             lrc.map((item) => {

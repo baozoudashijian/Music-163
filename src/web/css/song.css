@@ -69,21 +69,31 @@
     position: relative;
 }
 .ph-container .lrc {
+    padding: 0 35px;
     text-align: center;
-    margin-top: 20px;
-    height: 200px;
+    height: 110px;
+    margin-top: 10px;
     color: hsla(0,0%,100%,.6);
     overflow: hidden;
 }
+.ph-container .lrc p {
+    padding-bottom: 8px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 .ph-container .lrc > div {
-    margin-top: 14px;
+    transition: all 2s;
+    /* margin-top: 14px; */
 }
 .ph-container .lrc > div p.active {
     color: #fff;
 }
-.ph-container .lrc h1 {
+.ph-container h1 {
     font-size: 18px;
     color: white;
+    text-align: center;
+    margin-top: 20px;
     font-weight: 600;
 }
 .song-return {
