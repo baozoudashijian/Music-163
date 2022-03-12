@@ -19,13 +19,16 @@ const PlayHeader = React.createClass({
     },
     getDefaultProps() {
         return {
-            catchState: () => {}
+            catchState: () => {},
+            catchAllState: () => {}
         }
     },
     componentDidMount() {
         let id = window.app.getParams('id')
         app.getSongPlay(id).then((res) => {
-            this.setState({songInfo: {...this.state.songInfo, ...res.attributes}})
+            this.setState({songInfo: {...this.state.songInfo, ...res.attributes}}, () => {
+                this.props.catchAllState(this.state)
+            })
         })
         this.refs.music.ontimeupdate = this.onTimeUpdate
         this.refs.music.onended = this.onEnded
@@ -57,7 +60,6 @@ const PlayHeader = React.createClass({
     onTimeUpdate(e) {
         let prevT = 0
         let t = e.target.currentTime
-        let wrapper = $('.lrc').offset().top
         $('.lrc > div p').each((index, item) => {
             let pt = $(item).attr('data-time')
             if(t >= prevT && t < pt) {
@@ -95,9 +97,9 @@ const PlayHeader = React.createClass({
                     <div className='song-return' onClick={this.toPause}>
                         <div className="wrapper">
                             <div className={['img', playState ? 'active':''].join(' ')}>
-                                <img className="u-img" alt="song-img" src="https://p1.music.126.net/8IEucUOp6E1AJfDb5RrPNw==/109951167104850464.jpg?imageView&thumbnail=360y360&quality=75&tostatic=0" />
+                                <img className="u-img" alt="song-img" src={songInfo.post ? songInfo.post : ''} />
                                 <div className="u-audio">
-                                    <audio ref="music" controls src={songInfo.link}></audio>
+                                    <audio ref="music" src={songInfo.link}></audio>
                                 </div>
                             </div>
                         </div>
@@ -141,23 +143,30 @@ const PlayBody = React.createClass({
 
 const PlayMusic = React.createClass({
     getInitialState() {
-        return { playState: false };
+        return { playState: false, allState: {} };
     },
     catchState(state) {
         this.setState({playState: state})
     },
+    catchAllState(state){
+        this.setState({allState: state})
+    },
     render() {
-        const { playState } = this.state
+        const { playState, allState } = this.state
+        let a
+        // console.log(allState, 'allstate')
+        allState.songInfo && (a = allState.songInfo.post ? {'background-image': `url(${allState.songInfo.post})`} : '')
+        console.log(a)
         return (
             <div>
-                <div className="pm-container">
+                <div className="pm-container" style={a}>
 
                 </div>
                 <div className="top-shade">
                     <div className={['ply-pointer', playState ? 'active':''].join(' ')}></div>
                 </div>
                 <div className="bottom-shade"></div>
-                <PlayHeader catchState={this.catchState} />
+                <PlayHeader catchState={this.catchState} catchAllState={this.catchAllState} />
                 <PlayBody />
             </div>
 

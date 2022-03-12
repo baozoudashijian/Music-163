@@ -20,12 +20,20 @@
                   <input type="text" class="form-control" name="singer">
                 </div>
                 <div class="mb-3">
-                  <label for="link" class="form-label">外链:</label>
+                  <label for="link" class="form-label">歌曲外链:</label>
                   <input type="text" class="form-control" name="link">
+                </div>
+                <div class="mb-3">
+                  <label for="link" class="form-label">封面外链:</label>
+                  <input type="text" class="form-control" name="post">
                 </div>
                 <div class="mb-3">
                   <label for="formFile" class="form-label">上传音乐</label>
                   <input class="form-control" type="file" id="formFile" name="file">
+                </div>
+                <div class="mb-3">
+                  <label for="postFile" class="form-label">上传封面</label>
+                  <input class="form-control" type="file" id="postFile" name="file">
                 </div>
                 <div class="mb-3">
                   <label for="lyric" class="form-label">歌词</label>
@@ -54,11 +62,16 @@
       $('#newSong-form input[name="singer"]').val(data.singer)
       $('#newSong-form input[name="link"]').val(data.link)
       $('#newSong-form textarea[name="lyric"]').val(data.lyric)
+      $('#newSong-form textarea[name="post"]').val(data.post)
       $('#newSong-form input[name="file"]').val('')
     },
-    linkRender(link) {
-      console.log(123)
-      $('#newSong-form input[name="link"]').val(link)
+    linkRender(link, id) {
+      if(id == 'formFile') {
+        $('#newSong-form input[name="link"]').val(link)
+      }else if (id == 'postFile') {
+        $('#newSong-form input[name="post"]').val(link)
+      }
+      
     }
   }
   let model = {
@@ -122,7 +135,8 @@
             id: this.model.data.id,
             link: options.link,
             singer: options.singer,
-            lyric: options.lyric
+            lyric: options.lyric,
+            post: options.post,
           }
           this.model.update(data).then((res) => {
             window.eventHub.emit('update:songList')
@@ -136,11 +150,12 @@
 
       $(this.view.el).find('input[type="file"]').on('change', (e) => {
           let selectedFile = e.target.files[0]
+          let id = e.currentTarget.id
+          console.log(e)
 
           this.model.getToken().then(({ data }) => {
             let { uploadToken } = data
-
-            this.uploadFile(selectedFile, selectedFile.name, uploadToken)
+            this.uploadFile(selectedFile, selectedFile.name, uploadToken, id)
             // this.getUploadUrl(data)
           })
       })
@@ -162,7 +177,7 @@
         this.view.moodRender(this.model.data)
       })
     },
-    uploadFile(file, name, token) {
+    uploadFile(file, name, token, id) {
       const _this = this
       const observable = qiniu.upload(file, name, token)
       const subscription = observable.subscribe(function next(res) {
@@ -171,7 +186,7 @@
 
       }, function complete(res) {
         let { key } = res
-        _this.view.linkRender(window.baseURL + '/' + key)
+        _this.view.linkRender(window.baseURL + '/' + key, id)
       })
     },
     // getUploadUrl({uploadToken, config}) {
