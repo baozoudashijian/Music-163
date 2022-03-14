@@ -7,10 +7,10 @@
       </div>
       <ul class="menu-list">
         <li class="item active">
-          <a class="link" href="#">概览</a>
+          <a class="link" href="#">全部歌曲</a>
         </li>
         <li class="item">
-          <a class="link" href="#">音乐管理</a>
+          <a class="link" href="#">歌单管理</a>
         </li>
       </ul>
     `,
@@ -28,8 +28,8 @@
       this.bindEvents()
     },
     bindEvents() {
-      $(this.view.el).on('click', '.menu-list' , function(e) {
-        $(this).children().removeClass('active')
+      $(this.view.el).on('click', '.menu-list li' , function(e) {
+        $(e.target).parent().removeClass('active').siblings().removeClass('active')
         $(e.target).parent().addClass('active')
         window.eventHub.emit('update:menuList', {name: $(e.target).text()})
       })

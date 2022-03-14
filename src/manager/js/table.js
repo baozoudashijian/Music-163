@@ -1,7 +1,7 @@
 {
   let view = {
     el: '#main .table-container',
-    template: `
+    allSongTemplate: `
     <div class="table-action">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">新建歌曲</button>
     </div>
@@ -20,8 +20,13 @@
       
     </table>
   `,
-    render(data) {
-      $(this.el).html(this.template)
+    songSheetTemplate: `
+    <div>我的歌单</div>
+    `,
+    render(data, tmpl) {
+      let rTmpl = tmpl + 'Template'
+      console.log(this[rTmpl])
+      $(this.el).html(this[rTmpl])
       for (let i = 0; i < data.length; i++) {
         $('#songList').append(
           `<tr>
@@ -41,7 +46,8 @@
 
   let model = {
     data: {
-      songList: []
+      songList: [],
+      tmpl: 'allSong'
     },
     queryAll() {
       const query = new AV.Query('SongList');
@@ -64,17 +70,28 @@
       this.bindEvents()
       this.bindEventHub()
       window.eventHub.emit('update:songList')
-      this.view.render(this.model.data.songList)
+      this.view.render(this.model.data.songList, this.model.data.tmpl)
       
     },
     bindEventHub() {
       let _this = this
       window.eventHub.on('update:songList', () => {
         _this.model.queryAll().then((res) => {
-          _this.view.render(this.model.data.songList)
+          _this.view.render(this.model.data.songList, this.model.data.tmpl)
           _this.close()
         })
 
+      })
+
+      window.eventHub.on('update:menuList', (tmpl) => {
+        let { name } = tmpl
+        if(name == '全部歌曲') {
+          _this.model.data.tmpl = 'allSong'
+        }else if(name == '歌单管理') {
+          _this.model.data.tmpl = 'songSheet'
+        }
+        console.log(_this.model.data.tmpl, 'data')
+        _this.view.render(this.model.data.songList, _this.model.data.tmpl)
       })
     },
     bindEvents() {
