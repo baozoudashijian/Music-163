@@ -162,6 +162,7 @@
 
 
       var myModal = document.getElementById('exampleModal')
+      // model 监听事件是异步，点击按钮触发 > eventHub更新数据 > 展示model > 根据eventHub更新的数据去展示弹框的内容
       myModal.addEventListener('shown.bs.modal', (e) => {
         let action = e.relatedTarget.innerText
         switch (action) {
