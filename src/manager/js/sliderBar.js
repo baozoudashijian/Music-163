@@ -6,10 +6,10 @@
         <h2>音乐地带</h2>
       </div>
       <ul class="menu-list">
-        <li class="item active">
+        <li class="item">
           <a class="link" href="#">全部歌曲</a>
         </li>
-        <li class="item">
+        <li class="item active">
           <a class="link" href="#">歌单管理</a>
         </li>
       </ul>

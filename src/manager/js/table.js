@@ -21,11 +21,12 @@
     </table>
   `,
     songSheetTemplate: `
-    <div>我的歌单</div>
+    <div class="table-action2">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#songSheetModel" data-bs-whatever="@mdo">新建歌单</button>
+    </div>
     `,
     render(data, tmpl) {
       let rTmpl = tmpl + 'Template'
-      console.log(this[rTmpl])
       $(this.el).html(this[rTmpl])
       for (let i = 0; i < data.length; i++) {
         $('#songList').append(
@@ -47,7 +48,7 @@
   let model = {
     data: {
       songList: [],
-      tmpl: 'allSong'
+      tmpl: 'songSheet'
     },
     queryAll() {
       const query = new AV.Query('SongList');
@@ -90,7 +91,6 @@
         }else if(name == '歌单管理') {
           _this.model.data.tmpl = 'songSheet'
         }
-        console.log(_this.model.data.tmpl, 'data')
         _this.view.render(this.model.data.songList, _this.model.data.tmpl)
       })
     },
@@ -117,6 +117,12 @@
       $(this.view.el).on('click', '.table-action button', (e) => {
         e.preventDefault()
         window.eventHub.emit('update:song', { name: '', singer: '', link: '', id: '' })
+      })
+
+      // 新建歌单
+      $(this.view.el).on('click', '.table-action2 button', (e) => {
+        e.preventDefault()
+        // window.eventHub.emit('update:song', { name: '', singer: '', link: '', id: '' })
       })
     },
     close() {
