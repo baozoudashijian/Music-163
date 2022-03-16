@@ -38,7 +38,21 @@
     let model = {
         data: {
             action: '新建'
-        }
+        },
+        create(options) {
+            // 声明 class
+            const SongSheet = AV.Object.extend('SongSheet');
+      
+            const ss = new SongSheet();
+      
+            for (let key in options) {
+              if (key) {
+                ss.set(key, options[key]);
+              }
+            }
+      
+            return ss.save();
+          }
     }
 
     let controller = {
@@ -46,6 +60,25 @@
             this.view = view
             this.model = model
             this.view.render(this.model.data)
+            this.bindEvent()
+        },
+        bindEvent() {
+            $(this.view.el).find('#songSheetModel').on('submit', (e) => {
+                console.log(e)
+                e.preventDefault()
+                let options = {}
+                console.log(Array.from(e.target))
+                Array.from(e.target).map((item) => item.name && (options[item.name] = item.value))
+                if(!options.name || !options.description) {
+                    alert('请完善信息!')
+                    return false
+                }
+                console.log(options)
+                this.model.create(options).then((res) => {
+                    console.log(res)
+                })
+
+            })
         }
     }
     controller.init(view, model)
