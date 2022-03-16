@@ -75,7 +75,7 @@
                 }
                 console.log(options)
                 this.model.create(options).then((res) => {
-                    console.log(res)
+                    window.eventHub.emit('update:songSheet')
                 })
 
             })

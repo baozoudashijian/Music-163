@@ -23,31 +23,54 @@
     songSheetTemplate: `
     <div class="table-action2">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#songSheetModel" data-bs-whatever="@mdo">新建歌单</button>
+        <div id="songSheet" class="songSheet-wrapper">
+          <div class="songSheet">
+            <ul>
+              
+            </ul>
+          </div>
+        </div>
     </div>
     `,
     render(data, tmpl) {
+      console.log(data, tmpl)
       let rTmpl = tmpl + 'Template'
       $(this.el).html(this[rTmpl])
-      for (let i = 0; i < data.length; i++) {
-        $('#songList').append(
-          `<tr>
-          <td valign="middle">${data[i].name}</td>
-          <td valign="middle">${data[i].singer}</td>
-          <td valign="middle">${data[i].link}</td>
-          <td data-id=${data[i].id}>
-            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
-            <button type="button" class="btn btn-link">删除</button>
-          </td>
-        </tr>`
-        )
-      }
-
+      if(tmpl == 'allSong') {
+        for (let i = 0; i < data.length; i++) {
+          $('#songList').append(
+            `<tr>
+              <td valign="middle">${data[i].name}</td>
+              <td valign="middle">${data[i].singer}</td>
+              <td valign="middle">${data[i].link}</td>
+              <td data-id=${data[i].id}>
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
+                <button type="button" class="btn btn-link">删除</button>
+              </td>
+            </tr>`
+          )
+        }
+      }else if(tmpl == 'songSheet') {
+        for (let i = 0; i < data.length; i++) {
+          $('#songSheet ul').append(
+            `
+            <li>
+              <div class="img">
+                <img src="http://p1.music.126.net/IuAJjunTO_-d_Ts0pryc7g==/109951166267802608.jpg?param=140y140" />
+              </div>
+              <p>${data[i].name}</p>
+            </li>
+            `
+          )
+        }
+       }
     }
   }
 
   let model = {
     data: {
       songList: [],
+      songSheet: [],
       tmpl: 'songSheet'
     },
     queryAll() {
@@ -61,6 +84,14 @@
     remove(id) {
       const sl = AV.Object.createWithoutData('SongList', id);
       return sl.destroy();
+    },
+    queryAllSongSheet() {
+      const query = new AV.Query('SongSheet');
+      return query.find().then((songSheet) => {
+        const newData = songSheet.map(item => Object.assign(item.attributes, { id: item.id }))
+        this.data.songSheet = newData
+        return songSheet
+      });
     }
   }
 
@@ -70,15 +101,25 @@
       this.model = model
       this.bindEvents()
       this.bindEventHub()
-      window.eventHub.emit('update:songList')
-      this.view.render(this.model.data.songList, this.model.data.tmpl)
-      
+      if(this.model.data.tmpl == 'allSong') {
+        window.eventHub.emit('update:songList')
+      }else if(this.model.data.tmpl == 'songSheet') {
+        window.eventHub.emit('update:songSheet') 
+      }
     },
     bindEventHub() {
       let _this = this
       window.eventHub.on('update:songList', () => {
         _this.model.queryAll().then((res) => {
-          _this.view.render(this.model.data.songList, this.model.data.tmpl)
+          _this.view.render(this.model.data.songList, 'allSong')
+          _this.close()
+        })
+
+      })
+
+      window.eventHub.on('update:songSheet', () => {
+        _this.model.queryAllSongSheet().then((res) => {
+          _this.view.render(this.model.data.songSheet, 'songSheet')
           _this.close()
         })
 
@@ -88,10 +129,12 @@
         let { name } = tmpl
         if(name == '全部歌曲') {
           _this.model.data.tmpl = 'allSong'
+          window.eventHub.emit('update:songList')
         }else if(name == '歌单管理') {
           _this.model.data.tmpl = 'songSheet'
+          window.eventHub.emit('update:songSheet')
         }
-        _this.view.render(this.model.data.songList, _this.model.data.tmpl)
+        
       })
     },
     bindEvents() {
