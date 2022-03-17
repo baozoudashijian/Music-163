@@ -29,7 +29,6 @@
         </div>
         `,
         render(data) {
-            console.log(data)
             let html = this.template
             html = html.replace('__action', data.action)
             $(this.el).html(html)

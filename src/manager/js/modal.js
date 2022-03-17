@@ -24,8 +24,14 @@
                   <input type="text" class="form-control" name="link">
                 </div>
                 <div class="mb-3">
-                  <label for="link" class="form-label">封面外链:</label>
+                  <label for="post" class="form-label">封面外链:</label>
                   <input type="text" class="form-control" name="post">
+                </div>
+                <div class="mb-3">
+                  <label for="sheet" class="form-label">关联歌单:</label>
+                  <select name="sheet" id="songSheetSelect" class="form-select" aria-label="Default select example">
+                    
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="formFile" class="form-label">上传音乐</label>
@@ -56,7 +62,6 @@
       $(this.el).html(html)
     },
     moodRender(data) {
-      console.log(data, 'ff')
       $('#exampleModalLabel').text(data.action)
       $('#newSong-form input[name="name"]').val(data.name)
       $('#newSong-form input[name="singer"]').val(data.singer)
@@ -72,11 +77,20 @@
         $('#newSong-form input[name="post"]').val(link)
       }
       
+    },
+    selectRender(data) {
+      console.log(data)
+      let html = '<option value=“”>请选择</option>'
+      data.map((item) => {
+        html += `<option value='${item.id}'>${item.name}</option>`
+      })
+      $('#songSheetSelect').html(html)
     }
   }
   let model = {
     data: {
-      action: '新建'
+      action: '新建',
+      songSheet: []
     },
     create(options) {
       // 声明 class
@@ -104,6 +118,14 @@
     },
     getToken() {
       return axios.get('/uploadToken')
+    },
+    queryAllSongSheet() {
+      const query = new AV.Query('SongSheet');
+      return query.find().then((songSheet) => {
+        const newData = songSheet.map(item => Object.assign(item.attributes, { id: item.id }))
+        this.data.songSheet = newData
+        return songSheet
+      });
     }
   }
   let controller = {
@@ -176,6 +198,9 @@
             this.model.data.action = ''
         }
         this.view.moodRender(this.model.data)
+        this.model.queryAllSongSheet().then((res) => {
+          this.view.selectRender(this.model.data.songSheet)
+        })
       })
     },
     uploadFile(file, name, token, id) {
