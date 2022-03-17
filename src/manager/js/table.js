@@ -33,7 +33,6 @@
     </div>
     `,
     render(data, tmpl) {
-      console.log(data, tmpl)
       let rTmpl = tmpl + 'Template'
       $(this.el).html(this[rTmpl])
       if(tmpl == 'allSong') {
@@ -106,6 +105,7 @@
       }else if(this.model.data.tmpl == 'songSheet') {
         window.eventHub.emit('update:songSheet') 
       }
+      this.test()
     },
     bindEventHub() {
       let _this = this
@@ -170,6 +170,24 @@
     },
     close() {
       $('#table-loading').hide()
+    },
+    test() {
+      //https://leancloud.cn/docs/relation-guide.html#hash770451367
+      // const SongSheet = AV.Object.createWithoutData('SongSheet', '56545c5b00b09f857a603632');
+      // const query = new AV.Query('SongList');
+      // query.equalTo('dependent', SongSheet);
+      // query.find().then((songs) => {
+      //     // cities 为广东省下辖的所有城市
+      // });
+    
+
+      // 按照上诉文档的方式并不行，下面是我自己根据理解猜出的方式
+      const query = new AV.Query('SongList');
+      query.equalTo('dependent', '6231e946c62513794f8d2b31');
+      query.find().then((songs) => {
+          // cities 为广东省下辖的所有城市
+          console.log(songs, 'songs')
+      });
     }
   }
   controller.init(view, model)
