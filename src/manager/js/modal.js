@@ -67,7 +67,7 @@
       $('#newSong-form input[name="singer"]').val(data.singer)
       $('#newSong-form input[name="link"]').val(data.link)
       $('#newSong-form textarea[name="lyric"]').val(data.lyric)
-      $('#newSong-form textarea[name="post"]').val(data.post)
+      $('#newSong-form input[name="post"]').val(data.post)
       $('#newSong-form input[name="file"]').val('')
     },
     linkRender(link, id) {
@@ -159,6 +159,7 @@
             singer: options.singer,
             lyric: options.lyric,
             post: options.post,
+            dependent: options.sheet
           }
           this.model.update(data).then((res) => {
             window.eventHub.emit('update:songList')
@@ -214,7 +215,7 @@
         let { key } = res
         _this.view.linkRender(window.baseURL + '/' + key, id)
       })
-    },
+    }
     // getUploadUrl({uploadToken, config}) {
     //   console.log(123)
     //   qiniu.getUploadUrl(config, uploadToken).then(res => {
