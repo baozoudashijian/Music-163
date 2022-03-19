@@ -70,7 +70,7 @@
     data: {
       songList: [],
       songSheet: [],
-      tmpl: 'songSheet'
+      tmpl: 'allSong'
     },
     queryAll() {
       const query = new AV.Query('SongList');

@@ -78,11 +78,10 @@
       }
       
     },
-    selectRender(data) {
-      console.log(data)
+    selectRender(data, dependent) {
       let html = '<option value=“”>请选择</option>'
       data.map((item) => {
-        html += `<option value='${item.id}'>${item.name}</option>`
+        html += `<option ${item.id == dependent ? "selected" : ''} value='${item.id}'>${item.name}</option>`
       })
       $('#songSheetSelect').html(html)
     }
@@ -138,8 +137,19 @@
     },
     bindEventHub() {
       window.eventHub.on('update:song', (data) => {
-        this.model.data = Object.assign(this.model.data, data)
+        // 非必填字段 缓存之前数据
+        let d = this.unCacheProps(data, ['dependent', 'post', 'lyric'])
+        console.log(d, 'ddddd')
+        this.model.data = Object.assign(this.model.data, d)
       })
+    },
+    unCacheProps(data, arr) {
+      arr.map((item) => {
+        console.log(item)
+        console.log(data.item)
+        data[item] = data[item] ? data[item] : ''
+      })
+      return data
     },
     bindEvents() {
       $(this.view.el).find('#newSong-form').on('submit', (e) => {
@@ -200,7 +210,7 @@
         }
         this.view.moodRender(this.model.data)
         this.model.queryAllSongSheet().then((res) => {
-          this.view.selectRender(this.model.data.songSheet)
+          this.view.selectRender(this.model.data.songSheet, this.model.data.dependent)
         })
       })
     },
