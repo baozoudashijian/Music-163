@@ -19,7 +19,6 @@
             let htmlStr = data.map((item) => {
                 return temp.replace('__name', item.name).replace('__singer', item.singer).replace('__id', item.id).replace('__name', item.name)
             })
-            console.log(htmlStr.join(''))
             $(this.el).html(htmlStr.join(''))
         },
         loadingShow() {
