@@ -12,16 +12,16 @@
           <div class="nav-content">
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">消息</a>
+                <a class="nav-link active" aria-current="page" href="https://portal.qiniu.com/home">七牛</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">文档</a>
+                <a class="nav-link" href="https://leancloud.cn/docs/leanstorage_guide-js.html#hash314705411">leanClound</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">工单</a>
+                <a class="nav-link" href="https://music-163-manage.herokuapp.com/">音乐</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled">费用</a>
+                <a class="nav-link" href="https://github.com/baozoudashijian">GitHub</a>
               </li>
             </ul>
           </div>
