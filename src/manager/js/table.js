@@ -34,6 +34,7 @@
     `,
     render(data, tmpl) {
       let rTmpl = tmpl + 'Template'
+      let imgUrl = "http://p1.music.126.net/IuAJjunTO_-d_Ts0pryc7g==/109951166267802608.jpg?param=140y140"
       $(this.el).html(this[rTmpl])
       if(tmpl == 'allSong') {
         for (let i = 0; i < data.length; i++) {
@@ -55,7 +56,7 @@
             `
             <li data-id=${data[i].id}>
               <div class="img">
-                <img src="http://p1.music.126.net/IuAJjunTO_-d_Ts0pryc7g==/109951166267802608.jpg?param=140y140" />
+                <img src="${data[i].link ? data[i].link : imgUrl}" />
               </div>
               <p>${data[i].name}</p>
             </li>
