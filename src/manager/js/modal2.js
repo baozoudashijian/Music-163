@@ -19,6 +19,10 @@
                                 <label for="description" class="form-label">简介:</label>
                                 <textarea rows="6" class="form-control" name="description"></textarea>
                             </div>
+                            <div class="mb-3">
+                                <label for="postFile" class="form-label">上传封面</label>
+                                <input class="form-control" type="file" id="postFile" name="file">
+                            </div>
                             <div class="submit-btn">
                                 <button data-bs-dismiss="modal" type="submit" class="btn btn-primary">保存</button>
                             </div>
@@ -63,16 +67,13 @@
         },
         bindEvent() {
             $(this.view.el).find('#songSheetModel').on('submit', (e) => {
-                console.log(e)
                 e.preventDefault()
                 let options = {}
-                console.log(Array.from(e.target))
                 Array.from(e.target).map((item) => item.name && (options[item.name] = item.value))
                 if(!options.name || !options.description) {
                     alert('请完善信息!')
                     return false
                 }
-                console.log(options)
                 this.model.create(options).then((res) => {
                     window.eventHub.emit('update:songSheet')
                 })
