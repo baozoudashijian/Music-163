@@ -21,6 +21,12 @@
             })
             console.log(htmlStr.join(''))
             $(this.el).html(htmlStr.join(''))
+        },
+        loadingShow() {
+            $('.songs .loading-1-2').show()
+        },
+        loadingHide() {
+            $('.songs .loading-1-2').hide()
         }
     }
 
@@ -50,9 +56,10 @@
             console.log('load model page-1-2')
         },
         getAllSongs() {
+            this.view.loadingShow()
             this.model.queryAll().then(() => {
                 this.view.render(this.model.data.songList)
-                console.log(this.model.data.songList)
+                this.view.loadingHide()
             })
 
         }

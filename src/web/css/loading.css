@@ -1,0 +1,16 @@
+  .loader{
+    margin: 0 0 2em;
+    width: 100%;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /*
+    Set the color of the icon
+  */
+  .loader svg path,
+  .loader svg rect {
+    fill: #D43C33;
+  }
