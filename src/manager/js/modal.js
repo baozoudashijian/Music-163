@@ -115,9 +115,6 @@
       }
       return sl.save();
     },
-    getToken() {
-      return axios.get('/uploadToken')
-    },
     queryAllSongSheet() {
       const query = new AV.Query('SongSheet');
       return query.find().then((songSheet) => {
@@ -181,12 +178,9 @@
       $(this.view.el).find('input[type="file"]').on('change', (e) => {
           let selectedFile = e.target.files[0]
           let id = e.currentTarget.id
-          console.log(e)
 
-          this.model.getToken().then(({ data }) => {
-            let { uploadToken } = data
-            this.uploadFile(selectedFile, selectedFile.name, uploadToken, id)
-            // this.getUploadUrl(data)
+          window.upload(selectedFile, (res) => {
+            this.view.linkRender(res, id)
           })
       })
 
@@ -209,18 +203,6 @@
         this.model.queryAllSongSheet().then((res) => {
           this.view.selectRender(this.model.data.songSheet, this.model.data.dependent)
         })
-      })
-    },
-    uploadFile(file, name, token, id) {
-      const _this = this
-      const observable = qiniu.upload(file, name, token)
-      const subscription = observable.subscribe(function next(res) {
-
-      }, function error(err) {
-
-      }, function complete(res) {
-        let { key } = res
-        _this.view.linkRender(window.baseURL + '/' + key, id)
       })
     }
     // getUploadUrl({uploadToken, config}) {

@@ -73,7 +73,6 @@
       tmpl: 'songSheet'
     },
     queryAll(id) {
-      console.log(id, 'id')
       if(id) {
         return this.querySongSheetAllSong(id)
       } else {
