@@ -53,7 +53,7 @@
         for (let i = 0; i < data.length; i++) {
           $('#songSheet ul').append(
             `
-            <li>
+            <li data-id=${data[i].id}>
               <div class="img">
                 <img src="http://p1.music.126.net/IuAJjunTO_-d_Ts0pryc7g==/109951166267802608.jpg?param=140y140" />
               </div>
@@ -70,15 +70,20 @@
     data: {
       songList: [],
       songSheet: [],
-      tmpl: 'allSong'
+      tmpl: 'songSheet'
     },
-    queryAll() {
-      const query = new AV.Query('SongList');
-      return query.find().then((songs) => {
-        const newData = songs.map(item => Object.assign(item.attributes, { id: item.id }))
-        this.data.songList = newData
-        return songs
-      });
+    queryAll(id) {
+      console.log(id, 'id')
+      if(id) {
+        return this.querySongSheetAllSong(id)
+      } else {
+        const query = new AV.Query('SongList');
+        return query.find().then((songs) => {
+          const newData = songs.map(item => Object.assign(item.attributes, { id: item.id }))
+          this.data.songList = newData
+          return songs
+        });
+      }
     },
     remove(id) {
       const sl = AV.Object.createWithoutData('SongList', id);
@@ -90,6 +95,16 @@
         const newData = songSheet.map(item => Object.assign(item.attributes, { id: item.id }))
         this.data.songSheet = newData
         return songSheet
+      });
+    },
+    querySongSheetAllSong(id) {
+      const query = new AV.Query('SongList');
+      query.equalTo('dependent', id);
+      return query.find().then((songs) => {
+        console.log(songs, '123')
+        const newData = songs.map(item => Object.assign(item.attributes, { id: item.id }))
+        this.data.songList = newData
+        return songs
       });
     }
   }
@@ -105,12 +120,11 @@
       }else if(this.model.data.tmpl == 'songSheet') {
         window.eventHub.emit('update:songSheet') 
       }
-      this.test()
     },
     bindEventHub() {
       let _this = this
-      window.eventHub.on('update:songList', () => {
-        _this.model.queryAll().then((res) => {
+      window.eventHub.on('update:songList', (id) => {
+        _this.model.queryAll(id).then((res) => {
           _this.view.render(this.model.data.songList, 'allSong')
           _this.close()
         })
@@ -125,14 +139,15 @@
 
       })
 
-      window.eventHub.on('update:menuList', (tmpl) => {
+      window.eventHub.on('update:menuList', (tmpl, id) => {
         let { name } = tmpl
+        console.log(id, '123')
         if(name == '全部歌曲') {
           _this.model.data.tmpl = 'allSong'
-          window.eventHub.emit('update:songList')
+          window.eventHub.emit('update:songList', id)
         }else if(name == '歌单管理') {
           _this.model.data.tmpl = 'songSheet'
-          window.eventHub.emit('update:songSheet')
+          window.eventHub.emit('update:songSheet', id)
         }
         
       })
@@ -167,27 +182,15 @@
         e.preventDefault()
         // window.eventHub.emit('update:song', { name: '', singer: '', link: '', id: '' })
       })
+      
+      $(this.view.el).on('click', '#songSheet ul li', (e) => {
+        let id = $(e.currentTarget).attr('data-id')
+        console.log(id, '1')
+        window.eventHub.emit('update:menuList', {name: "全部歌曲"}, id)
+      })
     },
     close() {
       $('#table-loading').hide()
-    },
-    test() {
-      //https://leancloud.cn/docs/relation-guide.html#hash770451367
-      // const SongSheet = AV.Object.createWithoutData('SongSheet', '56545c5b00b09f857a603632');
-      // const query = new AV.Query('SongList');
-      // query.equalTo('dependent', SongSheet);
-      // query.find().then((songs) => {
-      //     // cities 为广东省下辖的所有城市
-      // });
-    
-
-      // 按照上诉文档的方式并不行，下面是我自己根据理解猜出的方式
-      const query = new AV.Query('SongList');
-      query.equalTo('dependent', '6231e946c62513794f8d2b31');
-      query.find().then((songs) => {
-          // cities 为广东省下辖的所有城市
-          console.log(songs, 'songs')
-      });
     }
   }
   controller.init(view, model)

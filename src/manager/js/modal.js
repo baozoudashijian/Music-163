@@ -139,14 +139,11 @@
       window.eventHub.on('update:song', (data) => {
         // 非必填字段 缓存之前数据
         let d = this.unCacheProps(data, ['dependent', 'post', 'lyric'])
-        console.log(d, 'ddddd')
         this.model.data = Object.assign(this.model.data, d)
       })
     },
     unCacheProps(data, arr) {
       arr.map((item) => {
-        console.log(item)
-        console.log(data.item)
         data[item] = data[item] ? data[item] : ''
       })
       return data
