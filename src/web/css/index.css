@@ -147,28 +147,39 @@ section.art .copyright {
     transform: scale(.75);
 }
 
-#songs a {
+.tab-content a {
     display: flex;
     padding-left: 10px;
     color: #333;
 }
-#songs a .songItem {
+.tab-content  a .songItem {
     flex: 1 1 auto;
     display: flex;
 }
-#songs a .songItem .songLeft {
+.tab-content  a .rank {
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    color: #999;
+    font-size: 17px;
+}
+
+#songsRank li:nth-child(1) a .rank, #songsRank li:nth-child(2) a .rank, #songsRank li:nth-child(3) a .rank {
+    color: #df3436;
+}
+.tab-content  a .songItem .songLeft {
     padding: 6px 0;
     width: 0;
     flex: 1 1 auto;
 }
-#songs a .songItem .songLeft .name {
+.tab-content a .songItem .songLeft .name {
     font-size: 17px;
 }
-#songs a .songItem .songLeft .detail {
+.tab-content a .songItem .songLeft .detail {
     font-size: 12px;
     color: #888;
 }
-#songs a .songItem .songLeft .detail .icon {
+.tab-content a .songItem .songLeft .detail .icon {
     display: inline-block;
     width: 12px;
     height: 8px;
@@ -176,12 +187,12 @@ section.art .copyright {
     background: url('../image/index_icon_2x.png') no-repeat;
     background-size: 166px 97px;
 }
-#songs a .songItem .songRight {
+.tab-content a .songItem .songRight {
     display: flex;
     align-items: center;
     padding: 0 10px;
 }
-#songs a .songItem .songRight span {
+.tab-content a .songItem .songRight span {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -192,3 +203,45 @@ section.art .copyright {
 .loading-1-2 {
     display: none;
 }
+
+.hotop {
+    position: relative;
+    padding-top: 38.9%;
+    background: url('../image/hot_music_bg_2x.jpeg') no-repeat;
+    background-size: contain;
+    overflow: hidden;
+}
+.hotop::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.2)
+}
+.hotop .hotopct {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding-left: 20px;
+}
+.hotop .hotopct .hoticon {
+    width: 142px;
+    height: 67px;
+    background: url('../image/index_icon_2x.png') no-repeat;
+    background-size: 166px 97px;
+    background-position: -24px -30px;
+}
+.hotop .hotopct .hottime {
+    margin-top: 10px;
+    color: hsla(0,0%,100%,.8);
+    font-size: 12px;
+    transform: scale(.91);
+    transform-origin: left top;
+}
+
