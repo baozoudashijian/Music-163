@@ -20,4 +20,4 @@ window.eventHub = {
   }
 }
 
-window.baseURL = 'http://r7a0fbuny.hb-bkt.clouddn.com'
+window.baseURL = 'http://oss.zhanrongjie.xyz'
