@@ -122,31 +122,30 @@
       }
     },
     bindEventHub() {
-      let _this = this
       window.eventHub.on('update:songList', (id) => {
-        _this.model.queryAll(id).then((res) => {
-          _this.view.render(this.model.data.songList, 'allSong')
-          _this.close()
+        console.log(controller, 'cr')
+        controller.model.queryAll(id).then((res) => {
+          controller.view.render(this.model.data.songList, 'allSong')
+          controller.close()
         })
 
       })
 
       window.eventHub.on('update:songSheet', () => {
-        _this.model.queryAllSongSheet().then((res) => {
-          _this.view.render(this.model.data.songSheet, 'songSheet')
-          _this.close()
+        controller.model.queryAllSongSheet().then((res) => {
+          controller.view.render(this.model.data.songSheet, 'songSheet')
+          controller.close()
         })
 
       })
 
       window.eventHub.on('update:menuList', (tmpl, id) => {
         let { name } = tmpl
-        console.log(id, '123')
         if(name == '全部歌曲') {
-          _this.model.data.tmpl = 'allSong'
+          controller.model.data.tmpl = 'allSong'
           window.eventHub.emit('update:songList', id)
         }else if(name == '歌单管理') {
-          _this.model.data.tmpl = 'songSheet'
+          controller.model.data.tmpl = 'songSheet'
           window.eventHub.emit('update:songSheet', id)
         }
         
